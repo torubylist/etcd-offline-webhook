@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd-offline-webhook
+  namespace: etcd-offline-webhook
+  labels:
+    name: etcd-offline-webhook
+spec:
+  ports:
+  - name: webhook
+    port: 443
+    targetPort: 8080
+  selector:
+    name: etcd-offline-webhook
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: etcd-offline-webhook
+  namespace: etcd-offline-webhook
+  labels:
+    name: etcd-offline-webhook
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: etcd-offline-webhook 
+      labels:
+        name: etcd-offline-webhook
+    spec:
+      containers:
+        - name: webhook
+          image: etcd-offline-webhook:latest
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: 300m
+            requests:
+              memory: 50Mi
+              cpu: 300m
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: /etc/webhook/certs
+              readOnly: true
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: etcd-offline-webhook-certs
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: etcd-offline-webhook
+webhooks:
+  - name: etcd-offline-webhook.alexglv.github.com
+    clientConfig:
+      service:
+        name: etcd-offline-webhook
+        namespace: etcd-offline-webhook
+        path: "/"
+      caBundle: ${CA_BUNDLE}
+    rules:
+      - operations: ["DELETE"]
+        apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        resources: ["statefulset"]
+    failurePolicy: Ignore
