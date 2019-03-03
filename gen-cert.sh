@@ -1,5 +1,5 @@
 #!/bin/bash
-title="etcd-off-linewebhook"
+title="etcd-offline-webhook"
 kubectl create namespace etcd-offline-webhook || true
 
 [ -z ${title} ] && service=sidecar-injector-webhook-svc

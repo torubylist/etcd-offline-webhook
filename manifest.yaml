@@ -56,7 +56,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: etcd-offline-webhook
 webhooks:
-  - name: etcd-offline-webhook.alexglv.github.com
+  - name: etcd-offline-webhook.torubylist.github.com
     clientConfig:
       service:
         name: etcd-offline-webhook

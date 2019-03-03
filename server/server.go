@@ -40,6 +40,7 @@ func (ewh *EtcdWebHook) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	ewh.EtcdWebHookController.HandleEtcdAdmission(review)
 	responseInBytes, err := json.Marshal(review)
+	logrus.Debugln(string(responseInBytes))
 
 	if _, err := w.Write(responseInBytes); err != nil {
 		logrus.Errorln(err)

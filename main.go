@@ -14,6 +14,11 @@ type Config struct {
 	Debug    bool   `default:"true"`
 }
 
+var (
+	masterURL  string
+	kubeconfig string
+)
+
 func main() {
 	config := &Config{}
 	envconfig.Process("", config)
@@ -21,9 +26,8 @@ func main() {
 	if config.Debug {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
-
 	logrus.Infoln(config)
-	nsac := server.EtcdAdmission{}
-	s := server.GetEtcdWehhookServer(&nsac, config.TlsCert, config.TlsKey, config.ListenOn)
+	nsac := &server.EtcdAdmission{}
+	s := server.GetEtcdWehhookServer(nsac, config.TlsCert, config.TlsKey, config.ListenOn)
 	s.ListenAndServeTLS("", "")
 }

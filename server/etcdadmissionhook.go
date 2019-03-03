@@ -8,12 +8,13 @@ import (
 	"strings"
 	"github.com/torubylist/etcd-offline-webhook/rest"
 	"fmt"
+
 )
 
 type EtcdAdmission struct {
 }
 
-func (*EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error {
+func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error {
 	raw := ar.Request.Object.Raw
 	statefulset := appsv1.StatefulSet{}
 	deserializer := codecs.UniversalDeserializer()
@@ -24,11 +25,12 @@ func (*EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error {
 	ar.Response = &v1beta1.AdmissionResponse{}
 	ar.Response.Allowed = false
 	serviceName := statefulset.Spec.ServiceName
-	namespace := statefulset.Namespace
-	if  strings.Contains(statefulset.Name, "etcd") {
+	namespace := statefulset.ObjectMeta.Namespace
+	if  strings.Contains(statefulset.ObjectMeta.Name, "etcd") {
 		containers := statefulset.Spec.Template.Spec.Containers
 		ports := make(map[string]int32)
 		var portName string
+		//get etcd  client port
 		for _, container := range containers {
 			for _, port := range container.Ports {
 				if strings.Contains(port.Name, "client") {
@@ -38,6 +40,7 @@ func (*EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error {
 				}
 			}
 		}
+		//etcd service url
 		url := fmt.Sprintf("http://%s.%s.svc:%d/%s", serviceName, namespace, ports[portName], "v2/members")
 		etcd := &rest.ETCD{}
 		etcdmems, err := etcd.Get(url)
