@@ -22,10 +22,15 @@ func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error 
 		logrus.Error(err)
 		return err
 	}
+	logrus.Debugln(statefulset)
+
 	ar.Response = &v1beta1.AdmissionResponse{}
 	ar.Response.Allowed = false
 	serviceName := statefulset.Spec.ServiceName
+	logrus.Debugln("statefulset servicename: ", serviceName)
 	namespace := statefulset.ObjectMeta.Namespace
+	logrus.Debugln("statefulset namespace: ", namespace)
+	logrus.Debugln("statefulset name: ", statefulset.ObjectMeta.Name)
 	if  strings.Contains(statefulset.ObjectMeta.Name, "etcd") {
 		containers := statefulset.Spec.Template.Spec.Containers
 		ports := make(map[string]int32)
