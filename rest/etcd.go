@@ -16,10 +16,7 @@ type Member struct {
 	Name string `json: "name, omitempty"`
 }
 
-type ETCD struct {
-}
-
-func (etcd *ETCD) Get(url string) (ETCDMember, error) {
+func Get(url string) (ETCDMember, error) {
 	logrus.Debugf("get members from url %s\n", url)
 	resp, err := resty.R().Get(url)
 	defer resp.RawBody().Close()
@@ -36,7 +33,7 @@ func (etcd *ETCD) Get(url string) (ETCDMember, error) {
 	return etcdmembers, nil
 }
 
-func (etcd *ETCD) Delete(url string) error  {
+func Delete(url string) error  {
 	logrus.Debugf("delete member %s\n", url)
 	resp, err := resty.R().Delete(url)
 	defer resp.RawBody().Close()

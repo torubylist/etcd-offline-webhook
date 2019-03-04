@@ -27,7 +27,7 @@ func main() {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
 	logrus.Infoln(config)
-	nsac := &server.EtcdAdmission{}
+	nsac := &server.EtcdAdmission{Kclient: getClient()}
 	s := server.GetEtcdWehhookServer(nsac, config.TlsCert, config.TlsKey, config.ListenOn)
 	s.ListenAndServeTLS("", "")
 }

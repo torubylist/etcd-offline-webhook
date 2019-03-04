@@ -29,9 +29,12 @@ type EtcdWebHook struct {
 
 func (ewh *EtcdWebHook) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var body []byte
-	if data, err := ioutil.ReadAll(r.Body); err == nil {
-		body = data
+		if r.Body != nil {
+			if data, err := ioutil.ReadAll(r.Body); err == nil {
+			body = data
+		}
 	}
+
 	logrus.Debugln(string(body))
 	review := &v1beta1.AdmissionReview{}
 	_, _, err := ewh.Decoder.Decode(body, nil, review)
