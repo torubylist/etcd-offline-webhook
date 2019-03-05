@@ -206,6 +206,14 @@
   version = "v1.3.0"
 
 [[projects]]
+  digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
+  version = "v1.0.2"
+
+[[projects]]
   branch = "master"
   digest = "1:84a5a2b67486d5d67060ac393aa255d05d24ed5ee41daecd5635ec22657b6492"
   name = "github.com/mailru/easyjson"
@@ -250,12 +258,12 @@
   version = "v1.2"
 
 [[projects]]
-  digest = "1:36a75ab002c1cfb43bcc5d2ec10fbdc2a1136e9246a65e535f1d827435f28f17"
+  digest = "1:87c2e02fb01c27060ccc5ba7c5a407cc91147726f8f40b70cceeedbc52b1f3a8"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
-  revision = "418b41d23a1bf978c06faea5313ba194650ac088"
-  version = "v0.8.7"
+  revision = "e1e72e9de974bd926e5c56f83753fba2df402ce5"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:c1b1102241e7f645bc8e0c22ae352e8f0dc6484b6cb4d132fa9f24174e0119e2"
@@ -266,12 +274,19 @@
   version = "v1.0.3"
 
 [[projects]]
-  digest = "1:4887e9e89c80299aa520d718239809fdd2a47a9aa394909b169959bfbc424ddf"
+  digest = "1:65946d7902d5aa57acdf6c3771c1de1ecd23f0dc32536849cfa28bd95a4400a5"
   name = "github.com/ugorji/go"
   packages = ["codec"]
   pruneopts = "UT"
-  revision = "8fd0f8d918c8f0b52d0af210a812ba882cc31a1e"
-  version = "v1.1.2"
+  revision = "8c0409fcbb70099c748d71f714529204975f6c3f"
+
+[[projects]]
+  branch = "master"
+  digest = "1:058e9504b9a79bfe86092974d05bb3298d2aa0c312d266d43148de289a5065d9"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  pruneopts = "UT"
+  revision = "8dd112bcdc25174059e45e07517d9fc663123347"
 
 [[projects]]
   branch = "master"
@@ -302,6 +317,17 @@
   ]
   pruneopts = "UT"
   revision = "e64efc72b421e893cbf63f17ba2221e7d6d0b0f3"
+
+[[projects]]
+  branch = "master"
+  digest = "1:32f8c7cc78e478c39ce1cbe83dc4d54e4c4eed86197c50ff28fb935e6a32e090"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows",
+  ]
+  pruneopts = "UT"
+  revision = "30e92a19ae4a77dde818b8c3d41d51e4850cba12"
 
 [[projects]]
   digest = "1:0c56024909189aee3364b7f21a95a27459f718aa7c199a5c111c36cfffd9eaef"
@@ -372,11 +398,10 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:6433b755170956d3f6e06d8122fc15cd6aa90129e630b4aa1cf5c1e29e6d9766"
+  digest = "1:4c228ebc0ac3a1c41de938da0a70faaa69d7f7a2e7ccece34af4f4ff289faf8e"
   name = "k8s.io/api"
   packages = [
     "admission/v1beta1",
-    "admissionregistration/v1beta1",
     "authentication/v1",
   ]
   pruneopts = "UT"
@@ -558,7 +583,6 @@
     "github.com/sirupsen/logrus",
     "gopkg.in/resty.v1",
     "k8s.io/api/admission/v1beta1",
-    "k8s.io/api/admissionregistration/v1beta1",
     "k8s.io/apimachinery/pkg/apis/meta/v1",
     "k8s.io/apimachinery/pkg/runtime",
     "k8s.io/apimachinery/pkg/runtime/serializer",

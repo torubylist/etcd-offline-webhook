@@ -4,9 +4,9 @@ RUN apk update && apk add git && apk add ca-certificates
 
 WORKDIR /etcd-offline-webhook
 
-COPY . .
+#COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o ./etcd-offline-webhook
+#RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o ./etcd-offline-webhook
 
 # Runtime image
 FROM scratch AS base

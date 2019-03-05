@@ -36,18 +36,25 @@ func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error 
 	logrus.Debugln("statefulset namespace: ", namespace)
 	logrus.Debugln("statefulset name: ", serviceName)
 	service, err := ea.Kclient.CoreV1().Services(namespace).Get(serviceName)
+	logrus.Debugln("service: ", service)
 	if err != nil {
+		logrus.Debugln("get service failed!")
 		return err
 	}
 	var port int32
 	for _,p := range service.Spec.Ports {
 		if strings.Contains(p.Name, "client") {
 			port = p.Port
+			break
 		}
 	}
+	logrus.Debugln("service port: ", port)
+
 	//etcd service url
 	if  strings.Contains(ar.Request.Name, "etcd") {
-		url := fmt.Sprintf("http://%s.%s.svc:%d/%s", "etcd", namespace, port, "v2/members")
+		url := fmt.Sprintf("http://%s.%s.svc:%d/%s", serviceName, namespace, port, "v2/members")
+		logrus.Debugln("etcd service url: ", url)
+
 		etcdmems, err := rest.Get(url)
 		if err != nil {
 			return err
