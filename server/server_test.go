@@ -3,16 +3,16 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
+	//"github.com/sirupsen/logrus"
 	"io"
 	"io/ioutil"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
+	//"k8s.io/apimachinery/pkg/apis/meta/v1"
+	//"k8s.io/apimachinery/pkg/runtime"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"k8s.io/api/admission/v1beta1"
+	//"k8s.io/api/admission/v1beta1"
 )
 
 var (

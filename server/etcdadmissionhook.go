@@ -13,7 +13,7 @@ import (
 )
 
 type EtcdAdmission struct {
-	Kclient *kubernetes.Clientset
+	Kclient kubernetes.Interface
 }
 
 func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error {
@@ -32,17 +32,16 @@ func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error 
 	//assume servicename the same as statefulset name.
 	serviceName := ar.Request.Name
 	logrus.Debugln("statefulset servicename: ", serviceName)
-	//namespace := statefulset.ObjectMeta.Namespace
 	logrus.Debugln("statefulset namespace: ", namespace)
 	logrus.Debugln("statefulset name: ", serviceName)
-	service, err := ea.Kclient.CoreV1().Services(namespace).Get(serviceName)
-	logrus.Debugln("service: ", service)
+	sv, err := ea.Kclient.CoreV1().Services(namespace).Get(serviceName, metav1.GetOptions{})
+	logrus.Debugln("service: ", sv)
 	if err != nil {
 		logrus.Debugln("get service failed!")
 		return err
 	}
 	var port int32
-	for _,p := range service.Spec.Ports {
+	for _,p := range sv.Spec.Ports {
 		if strings.Contains(p.Name, "client") {
 			port = p.Port
 			break
