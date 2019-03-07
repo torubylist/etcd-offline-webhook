@@ -37,7 +37,7 @@ func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error 
 	sv, err := ea.Kclient.CoreV1().Services(namespace).Get(serviceName, metav1.GetOptions{})
 	logrus.Debugln("service: ", sv)
 	if err != nil {
-		logrus.Debugln("get service failed!")
+		logrus.Debugln("get service failed!", err)
 		return err
 	}
 	var port int32
@@ -56,6 +56,7 @@ func (ea *EtcdAdmission) HandleEtcdAdmission(ar *v1beta1.AdmissionReview) error 
 
 		etcdmems, err := rest.Get(url)
 		if err != nil {
+			logrus.Debug("get etcdmembers failed: ", err)
 			return err
 		}
 		for _, member := range etcdmems.Members {

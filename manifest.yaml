@@ -1,4 +1,42 @@
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: etcd-offline-webhook
+  labels:
+    app: etcd-offline-webhook
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: etcd-offline-webhook
+  labels:
+    app: etcd-offline-webhook
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: etcd-offline-webhook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: etcd-offline-webhook
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,6 +51,7 @@ spec:
     targetPort: 8080
   selector:
     name: etcd-offline-webhook
+
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -67,5 +106,5 @@ webhooks:
       - operations: ["DELETE"]
         apiGroups: ["apps"]
         apiVersions: ["v1"]
-        resources: ["statefulset"]
+        resources: ["statefulsets"]
     failurePolicy: Ignore

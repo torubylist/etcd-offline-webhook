@@ -9,7 +9,7 @@ WORKDIR /etcd-offline-webhook
 #RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o ./etcd-offline-webhook
 
 # Runtime image
-FROM scratch AS base
+FROM alpine:latest AS base
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY ./etcd-offline-webhook /bin/etcd-offline-webhook
 
